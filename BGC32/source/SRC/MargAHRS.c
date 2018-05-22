@@ -80,7 +80,7 @@ void calculateAccConfidence(float accMag)
 //====================================================================================================
 // Initialization
 //====================================================================================================
-//º½×Ë²Î¿¼ÏµÍ³³õÊ¼»¯
+//èˆªå§¿å‚è€ƒç³»ç»Ÿåˆå§‹åŒ–
 void MargAHRSinit(float ax, float ay, float az, float mx, float my, float mz)
 {
     float initialRoll, initialPitch;
@@ -88,11 +88,11 @@ void MargAHRSinit(float ax, float ay, float az, float mx, float my, float mz)
     float magX, magY;
     float initialHdg, cosHeading, sinHeading;
 
-	//Ê¹ÓÃ¼ÓËÙ¶ÈÊı¾İ¼ÆËãÅ·À­½Ç £¬¹ö×ª½ÇºÍ¸©Ñö½Ç
+	//ä½¿ç”¨åŠ é€Ÿåº¦æ•°æ®è®¡ç®—æ¬§æ‹‰è§’ ï¼Œæ»šè½¬è§’å’Œä¿¯ä»°è§’
     initialRoll  = atan2(-ay, -az);
     initialPitch = atan2(ax, -az);
 
-	//¶ÔÅ·À­½Ç½øĞĞÓàÏÒºÍÕıÏÒ¼ÆËã£¬·Ö±ğ°Ñ¼ÆËã½á¹û±£´æÏÂÀ´
+	//å¯¹æ¬§æ‹‰è§’è¿›è¡Œä½™å¼¦å’Œæ­£å¼¦è®¡ç®—ï¼Œåˆ†åˆ«æŠŠè®¡ç®—ç»“æœä¿å­˜ä¸‹æ¥
     cosRoll  = cosf(initialRoll);
     sinRoll  = sinf(initialRoll);
     cosPitch = cosf(initialPitch);
@@ -102,7 +102,7 @@ void MargAHRSinit(float ax, float ay, float az, float mx, float my, float mz)
 
     magY = 0.0f;  // HJI my * cosRoll - mz * sinRoll;
 
-    initialHdg = atan2f(-magY, magX);//½âËãº½Ïò½Ç
+    initialHdg = atan2f(-magY, magX);//è§£ç®—èˆªå‘è§’
 
     cosRoll = cosf(initialRoll * 0.5f);
     sinRoll = sinf(initialRoll * 0.5f);
@@ -113,13 +113,13 @@ void MargAHRSinit(float ax, float ay, float az, float mx, float my, float mz)
     cosHeading = cosf(initialHdg * 0.5f);
     sinHeading = sinf(initialHdg * 0.5f);
 
-		//µÃµ½ËÄÔªÊı
+		//å¾—åˆ°å››å…ƒæ•°
     q0 = cosRoll * cosPitch * cosHeading + sinRoll * sinPitch * sinHeading;
     q1 = sinRoll * cosPitch * cosHeading - cosRoll * sinPitch * sinHeading;
     q2 = cosRoll * sinPitch * cosHeading + sinRoll * cosPitch * sinHeading;
     q3 = cosRoll * cosPitch * sinHeading - sinRoll * sinPitch * cosHeading;
 
-		//°Ñ¼ÆËã²Î¿¼·½ÏòÓÃµ½µÄÖµÏÈ¶¼¼ÆËãºÃ,¼õÉÙÖØ¸´¼ÆËã,ÒòÎªMargAHRSupdateº¯ÊıÀïÃæÒªÓÃµ½¡£
+		//æŠŠè®¡ç®—å‚è€ƒæ–¹å‘ç”¨åˆ°çš„å€¼å…ˆéƒ½è®¡ç®—å¥½,å‡å°‘é‡å¤è®¡ç®—,å› ä¸ºMargAHRSupdateå‡½æ•°é‡Œé¢è¦ç”¨åˆ°ã€‚
     // auxillary variables to reduce number of repeated operations, for 1st pass
     q0q0 = q0 * q0;
     q0q1 = q0 * q1;
@@ -136,7 +136,7 @@ void MargAHRSinit(float ax, float ay, float az, float mx, float my, float mz)
 //====================================================================================================
 // Function
 //====================================================================================================
-//º½×Ë²Î¿¼ÏµÍ³¸üĞÂ
+//èˆªå§¿å‚è€ƒç³»ç»Ÿæ›´æ–°
 void MargAHRSupdate(float gx, float gy, float gz,
                     float ax, float ay, float az,
                     float mx, float my, float mz,
@@ -151,50 +151,50 @@ void MargAHRSupdate(float gx, float gy, float gz,
 
     if ((MargAHRSinitialized == false)) // HJI && (magDataUpdate == true))
     {
-			//Èç¹ûº½×Ë²Î¿¼ÏµÍ³²ÎÊı»¹Ã»ÓĞ³õÊ¼»¯¹ı£¬ÄÇÃ´Ö´ĞĞAHRS³õÊ¼»¯
+			//å¦‚æœèˆªå§¿å‚è€ƒç³»ç»Ÿå‚æ•°è¿˜æ²¡æœ‰åˆå§‹åŒ–è¿‡ï¼Œé‚£ä¹ˆæ‰§è¡ŒAHRSåˆå§‹åŒ–
         MargAHRSinit(ax, ay, az, mx, my, mz);
 
-        MargAHRSinitialized = true;//±ê¼Çº½×Ë²Î¿¼ÏµÍ³²ÎÊıÒÑ¾­³õÊ¼»¯¹ı
+        MargAHRSinitialized = true;//æ ‡è®°èˆªå§¿å‚è€ƒç³»ç»Ÿå‚æ•°å·²ç»åˆå§‹åŒ–è¿‡
     }
 
     //-------------------------------------------
 
-    if (MargAHRSinitialized == true)//Èç¹ûº½×Ë²Î¿¼ÏµÍ³²ÎÊıÒÑ¾­³õÊ¼»¯¹ı
+    if (MargAHRSinitialized == true)//å¦‚æœèˆªå§¿å‚è€ƒç³»ç»Ÿå‚æ•°å·²ç»åˆå§‹åŒ–è¿‡
     {
-        halfT = dt * 0.5f;//°ëÖÜÆÚ£¬Çó½âËÄÔªÊıÎ¢·Ö·½³ÌÊ±ÓÃµÃµ½¡£
+        halfT = dt * 0.5f;//åŠå‘¨æœŸï¼Œæ±‚è§£å››å…ƒæ•°å¾®åˆ†æ–¹ç¨‹æ—¶ç”¨å¾—åˆ°ã€‚
 
-        norm = sqrt(SQR(ax) + SQR(ay) + SQR(az));//¼ÓËÙ¶È¹éÒ»»¯
+        norm = sqrt(SQR(ax) + SQR(ay) + SQR(az));//åŠ é€Ÿåº¦å½’ä¸€åŒ–
 
-        if (norm != 0.0f)//Èç¹û¹éÒ»»¯ºóµÄÄ£µÈÓÚ0 £¬ÄÇÃ´ËµÃ÷¼ÓËÙ¶ÈÊı¾İ»òÕß´«¸ĞÆ÷²»Õı³££¬Õı³£Çé¿öÏÂ ¹éÒ»»¯ºóµÄ½á¹ûºãµÈÓÚ 1.0 £¬ÕâÊÇÖØµã¡£
+        if (norm != 0.0f)//å¦‚æœå½’ä¸€åŒ–åçš„æ¨¡ç­‰äº0 ï¼Œé‚£ä¹ˆè¯´æ˜åŠ é€Ÿåº¦æ•°æ®æˆ–è€…ä¼ æ„Ÿå™¨ä¸æ­£å¸¸ï¼Œæ­£å¸¸æƒ…å†µä¸‹ å½’ä¸€åŒ–åçš„ç»“æœæ’ç­‰äº 1.0 ï¼Œè¿™æ˜¯é‡ç‚¹ã€‚
         {
-            calculateAccConfidence(norm);//ÓÉÓÚ´¦ÓÚÔË¶¯×´Ì¬£¬ËùÓĞÒª¼ÆËã¼ÓËÙ¶ÈÊı¾İ¹éÒ»»¯ºóµÄ¿ÉĞÅ¶È
-            kpAcc = eepromConfig.KpAcc * accConfidence; //¼ÓËÙ¶È±ÈÀıÏµÊı * ¿ÉĞÅ¶È
-            kiAcc = eepromConfig.KiAcc * accConfidence;//¼ÓËÙ¶È»ı·ÖÏµÊı * ¿ÉĞÅ¶È
+            calculateAccConfidence(norm);//ç”±äºå¤„äºè¿åŠ¨çŠ¶æ€ï¼Œæ‰€æœ‰è¦è®¡ç®—åŠ é€Ÿåº¦æ•°æ®å½’ä¸€åŒ–åçš„å¯ä¿¡åº¦
+            kpAcc = eepromConfig.KpAcc * accConfidence; //åŠ é€Ÿåº¦æ¯”ä¾‹ç³»æ•° * å¯ä¿¡åº¦
+            kiAcc = eepromConfig.KiAcc * accConfidence;//åŠ é€Ÿåº¦ç§¯åˆ†ç³»æ•° * å¯ä¿¡åº¦
 
-            normR = 1.0f / norm; //¼ÓËÙ¶È¹éÒ»»¯
+            normR = 1.0f / norm; //åŠ é€Ÿåº¦å½’ä¸€åŒ–
             ax *= normR;
             ay *= normR;
             az *= normR;
 
             // estimated direction of gravity (v)
-            vx = 2.0f * (q1q3 - q0q2);//¼ÆËã·½ÏòÓàÏÒ¾ØÕó
+            vx = 2.0f * (q1q3 - q0q2);//è®¡ç®—æ–¹å‘ä½™å¼¦çŸ©é˜µ
             vy = 2.0f * (q0q1 + q2q3);
             vz = q0q0 - q1q1 - q2q2 + q3q3;
 
             // error is sum of cross product between reference direction
             // of fields and direction measured by sensors
-					//Îó²îÊÇÓÉ´«¸ĞÆ÷²âÁ¿µÄ²Î¿¼·½ÏòÓë·½ÏòÖ®¼äµÄ²æ»ı,ÓÉ´Ë
-					//µÃµ½Ò»¸öÎó²îÏòÁ¿£¬Í¨¹ıÕâ¸öÎó²îÏòÁ¿À´ĞŞÕıÍÓÂİÒÇÊı¾İ¡£
+					//è¯¯å·®æ˜¯ç”±ä¼ æ„Ÿå™¨æµ‹é‡çš„å‚è€ƒæ–¹å‘ä¸æ–¹å‘ä¹‹é—´çš„å‰ç§¯,ç”±æ­¤
+					//å¾—åˆ°ä¸€ä¸ªè¯¯å·®å‘é‡ï¼Œé€šè¿‡è¿™ä¸ªè¯¯å·®å‘é‡æ¥ä¿®æ­£é™€èºä»ªæ•°æ®ã€‚
             exAcc = vy * az - vz * ay; 
             eyAcc = vz * ax - vx * az;
             ezAcc = vx * ay - vy * ax;
 
 
-            gx += exAcc * kpAcc;//±ÈÀıÔöÒæ¿ØÖÆ¼ÓËÙ¶È¼ÆµÄÊÕÁ²ËÙ¶È
+            gx += exAcc * kpAcc;//æ¯”ä¾‹å¢ç›Šæ§åˆ¶åŠ é€Ÿåº¦è®¡çš„æ”¶æ•›é€Ÿåº¦
             gy += eyAcc * kpAcc;
             gz += ezAcc * kpAcc;
 
-            if (kiAcc > 0.0f)//ÓÃ»ı·ÖÔöÒæ¿ØÖÆÍÓÂİÒÇµÄÆ«²îÊÕÁ²ËÙÂÊ
+            if (kiAcc > 0.0f)//ç”¨ç§¯åˆ†å¢ç›Šæ§åˆ¶é™€èºä»ªçš„åå·®æ”¶æ•›é€Ÿç‡
             {
                 exAccInt += exAcc * kiAcc;
                 eyAccInt += eyAcc * kiAcc;
@@ -208,17 +208,17 @@ void MargAHRSupdate(float gx, float gy, float gz,
 
         //-------------------------------------------
 
-        norm = sqrt(SQR(mx) + SQR(my) + SQR(mz));//ÈıÖá´ÅÁ¦¼Æ¹éÒ»»¯
+        norm = sqrt(SQR(mx) + SQR(my) + SQR(mz));//ä¸‰è½´ç£åŠ›è®¡å½’ä¸€åŒ–
 
-        if ((magDataUpdate == true) && (norm != 0.0f))//Èç¹ûÈë¿Ú²ÎÊımagDataUpdate == true²¢ÇÒ¹éÒ»»¯µÄ½á¹ûnorm²»ÊÇ0£¬²Å¶Ô´ÅÁ¦¼ÆÊı¾İ½øĞĞ¸üĞÂ¼ÆËã
+        if ((magDataUpdate == true) && (norm != 0.0f))//å¦‚æœå…¥å£å‚æ•°magDataUpdate == trueå¹¶ä¸”å½’ä¸€åŒ–çš„ç»“æœnormä¸æ˜¯0ï¼Œæ‰å¯¹ç£åŠ›è®¡æ•°æ®è¿›è¡Œæ›´æ–°è®¡ç®—
         {
-            normR = 1.0f / norm;//ÈıÖá´Å³¡¹éÒ»»¯
+            normR = 1.0f / norm;//ä¸‰è½´ç£åœºå½’ä¸€åŒ–
             mx *= normR;
             my *= normR;
             mz *= normR;
 
             // compute reference direction of flux
-					//¼ÆËã²Î¿¼·½Ïò
+					//è®¡ç®—å‚è€ƒæ–¹å‘
             hx = 2.0f * (mx * (0.5f - q2q2 - q3q3) + my * (q1q2 - q0q3) + mz * (q1q3 + q0q2));
 
             hy = 2.0f * (mx * (q1q2 + q0q3) + my * (0.5f - q1q1 - q3q3) + mz * (q2q3 - q0q1));
@@ -230,27 +230,27 @@ void MargAHRSupdate(float gx, float gy, float gz,
             bz = hz;
 
             // estimated direction of flux (w)
-					//¸ù¾İ²Î¿¼·½Ïò¹À¼ÆÔÆÌ¨»úÌå·½Ïò
+					//æ ¹æ®å‚è€ƒæ–¹å‘ä¼°è®¡äº‘å°æœºä½“æ–¹å‘
             wx = 2.0f * (bx * (0.5f - q2q2 - q3q3) + bz * (q1q3 - q0q2));
 
             wy = 2.0f * (bx * (q1q2 - q0q3) + bz * (q0q1 + q2q3));
 
             wz = 2.0f * (bx * (q0q2 + q1q3) + bz * (0.5f - q1q1 - q2q2));
 
-            exMag = my * wz - mz * wy;//ÈıÖá´Å³¡ºÍ¹À¼Æ·½Ïò½øĞĞ²æ»ıÔËËã,¼ÆËã¹À¼Æ·½ÏòÓëÈıÖá´Å³¡µÄÆ«²î
+            exMag = my * wz - mz * wy;//ä¸‰è½´ç£åœºå’Œä¼°è®¡æ–¹å‘è¿›è¡Œå‰ç§¯è¿ç®—,è®¡ç®—ä¼°è®¡æ–¹å‘ä¸ä¸‰è½´ç£åœºçš„åå·®
             eyMag = mz * wx - mx * wz;
             ezMag = mx * wy - my * wx;
 
             // use un-extrapolated old values between magnetometer updates
             // dubious as dT does not apply to the magnetometer calculation so
             // time scaling is embedded in KpMag and KiMag
-						//Ê¹ÓÃ¹À¼ÆµÄ¾ÉÖµÓë´ÅÁ¦¼ÆÖµ½øĞĞ¸üĞÂ£¬dT²»ÄÜÓ¦ÓÃÔÚ´ÅÁ¦¼Æ¼ÆËãÖĞ£¬Òò´ËÊ±¼ä±»Ç¶ÈëÔÚKpMag ºÍ KiMagÀïÃæ
-            gx += exMag * eepromConfig.KpMag;//±ÈÀıÔöÒæ¿ØÖÆ´ÅÇ¿¼ÆÊÕÁ²ËÙ¶È
+						//ä½¿ç”¨ä¼°è®¡çš„æ—§å€¼ä¸ç£åŠ›è®¡å€¼è¿›è¡Œæ›´æ–°ï¼ŒdTä¸èƒ½åº”ç”¨åœ¨ç£åŠ›è®¡è®¡ç®—ä¸­ï¼Œå› æ­¤æ—¶é—´è¢«åµŒå…¥åœ¨KpMag å’Œ KiMagé‡Œé¢
+            gx += exMag * eepromConfig.KpMag;//æ¯”ä¾‹å¢ç›Šæ§åˆ¶ç£å¼ºè®¡æ”¶æ•›é€Ÿåº¦
             gy += eyMag * eepromConfig.KpMag;
             gz += ezMag * eepromConfig.KpMag;
 
 			
-            if (eepromConfig.KiMag > 0.0f)//ÓÃ»ı·ÖÔöÒæ¿ØÖÆÍÓÂİÒÇµÄÆ«²îÊÕÁ²ËÙÂÊ
+            if (eepromConfig.KiMag > 0.0f)//ç”¨ç§¯åˆ†å¢ç›Šæ§åˆ¶é™€èºä»ªçš„åå·®æ”¶æ•›é€Ÿç‡
             {
                 exMagInt += exMag * eepromConfig.KiMag;
                 eyMagInt += eyMag * eepromConfig.KiMag;
@@ -265,7 +265,7 @@ void MargAHRSupdate(float gx, float gy, float gz,
         //-------------------------------------------
 
         // integrate quaternion rate
-			 //ËÄÔªÊıÎ¢·Ö·½³Ì£¬ÆäÖĞhalfTÎª²âÁ¿ÖÜÆÚ£¬gÎªÍÓÂİÒÇ½ÇËÙ¶È£¬ÆäÓà¶¼ÊÇÒÑÖªÁ¿£¬ÕâÀïÊ¹ÓÃÁËÒ»½×Áú¸ñ¿âËş·¨Çó½âËÄÔªÊıÎ¢·Ö·½³Ì¡£
+			 //å››å…ƒæ•°å¾®åˆ†æ–¹ç¨‹ï¼Œå…¶ä¸­halfTä¸ºæµ‹é‡å‘¨æœŸï¼Œgä¸ºé™€èºä»ªè§’é€Ÿåº¦ï¼Œå…¶ä½™éƒ½æ˜¯å·²çŸ¥é‡ï¼Œè¿™é‡Œä½¿ç”¨äº†ä¸€é˜¶é¾™æ ¼åº“å¡”æ³•æ±‚è§£å››å…ƒæ•°å¾®åˆ†æ–¹ç¨‹ã€‚
         q0i = (-q1 * gx - q2 * gy - q3 * gz) * halfT;
         q1i = (q0 * gx + q2 * gz - q3 * gy) * halfT;
         q2i = (q0 * gy - q1 * gz + q3 * gx) * halfT;
@@ -276,7 +276,7 @@ void MargAHRSupdate(float gx, float gy, float gz,
         q3 += q3i;
 
         // normalise quaternion
-				//ËÄÔªÊı¹éÒ»»¯£¬ÎªÊ²Ã´ÓÖÒª¹éÒ»»¯ÄØ£¿ÕâÊÇÒòÎªÒıÈëÁËÎó²îÏòÁ¿ºóËÄÔªÊıÊ§È¥ÁË¹æ·¶ĞÔÁË(Ä£²»µÈÓÚ1ÁË),ËùÒÔÒªÖØĞÂ¹éÒ»»¯
+				//å››å…ƒæ•°å½’ä¸€åŒ–ï¼Œä¸ºä»€ä¹ˆåˆè¦å½’ä¸€åŒ–å‘¢ï¼Ÿè¿™æ˜¯å› ä¸ºå¼•å…¥äº†è¯¯å·®å‘é‡åå››å…ƒæ•°å¤±å»äº†è§„èŒƒæ€§äº†(æ¨¡ä¸ç­‰äº1äº†),æ‰€ä»¥è¦é‡æ–°å½’ä¸€åŒ–
         normR = 1.0f / sqrt(q0 * q0 + q1 * q1 + q2 * q2 + q3 * q3);
         q0 *= normR;
         q1 *= normR;
@@ -284,7 +284,7 @@ void MargAHRSupdate(float gx, float gy, float gz,
         q3 *= normR;
 
         // auxiliary variables to reduce number of repeated operations
-				//°Ñ¼ÆËã²Î¿¼·½ÏòÓÃµ½µÄÖµÏÈ¶¼¼ÆËãºÃ,¼õÉÙÏÂÃæ¼ÆËãÅ·À­½ÇÊ±ºòµÄÖØ¸´¼ÆËã¡£
+				//æŠŠè®¡ç®—å‚è€ƒæ–¹å‘ç”¨åˆ°çš„å€¼å…ˆéƒ½è®¡ç®—å¥½,å‡å°‘ä¸‹é¢è®¡ç®—æ¬§æ‹‰è§’æ—¶å€™çš„é‡å¤è®¡ç®—ã€‚
         q0q0 = q0 * q0;
         q0q1 = q0 * q1;
         q0q2 = q0 * q2;
@@ -296,12 +296,14 @@ void MargAHRSupdate(float gx, float gy, float gz,
         q2q3 = q2 * q3;
         q3q3 = q3 * q3;
 
-				//×îºó¸ù¾İËÄÔªÊı·½ÏòÓàÏÒÕóºÍÅ·À­½ÇµÄ×ª»»¹ØÏµ£¬°ÑËÄÔªÊı×ª»»³ÉÅ·À­½Ç
+				//æœ€åæ ¹æ®å››å…ƒæ•°æ–¹å‘ä½™å¼¦é˜µå’Œæ¬§æ‹‰è§’çš„è½¬æ¢å…³ç³»ï¼ŒæŠŠå››å…ƒæ•°è½¬æ¢æˆæ¬§æ‹‰è§’
         sensors.margAttitude500Hz[ROLL ] = atan2f(2.0f * (q0q1 + q2q3), q0q0 - q1q1 - q2q2 + q3q3);
         sensors.margAttitude500Hz[PITCH] = -asinf(2.0f * (q1q3 - q0q2));
         sensors.margAttitude500Hz[YAW  ] = atan2f(2.0f * (q1q2 + q0q3), q0q0 + q1q1 - q2q2 - q3q3);
     }
 }
+ 
+//first branch
 
 //====================================================================================================
 // END OF CODE
